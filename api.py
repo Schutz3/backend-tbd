@@ -52,37 +52,37 @@ def authors():
 @app.route('/book', methods=['GET'])
 def book():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Book.get_book()
 
 @app.route('/bought', methods=['GET'])
-def employees():
+def bought():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Bought.get_bought()
     
 @app.route('/cabang', methods=['GET'])
 def cabang():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Cabang.get_cabang()
     
 @app.route('/customer', methods=['GET'])
 def customer():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Customer.get_customer()
     
 @app.route('/publisher', methods=['GET'])
 def publisher():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Publisher.get_publisher()
     
 @app.route('/revenue', methods=['GET'])
 def revenue():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Revenue.get_revenue()
     
 @app.route('/wrote', methods=['GET'])
 def wrote():
     if request.method == 'GET':
-        return Employee.get_employees()
+        return Wrote.get_wrote()
 
 if __name__ == '__main__':
     app.run()
