@@ -2,7 +2,12 @@ from flask import Flask, json, jsonify, make_response, request
 
 from lib.author import Author
 from lib.book import Book
-from lib.employee import Employee
+from lib.bought import Bought
+from lib.cabang import Cabang
+from lib.customer import Customer
+from lib.publisher import Publisher
+from lib.revenue import Revenue
+from lib.wrote import Wrote
 
 app = Flask(__name__)
 
