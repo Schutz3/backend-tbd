@@ -80,10 +80,10 @@ class Author:
 
 
 
-class Employee:
+class Revenue:
     
     
-    def get_employees():
+    def get_revenue():
         try:
             db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
                                 port=CREDENTIALS['PORT'],
@@ -92,7 +92,139 @@ class Employee:
                                 password=CREDENTIALS['PASSWORD']
                                 )
             c = db.cursor()
-            c.execute('SELECT * FROM staff')
+            c.execute('SELECT * FROM revenue')
+            data = c.fetchall()
+            
+            c.close()
+            db.close()
+            
+            return str(data)
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+
+
+
+
+class Cabang:
+    
+    
+    def get_cabang():
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                port=CREDENTIALS['PORT'],
+                                database=CREDENTIALS['DATABASE'],
+                                user=CREDENTIALS['USER'],
+                                password=CREDENTIALS['PASSWORD']
+                                )
+            c = db.cursor()
+            c.execute('SELECT * FROM cabang')
+            data = c.fetchall()
+            
+            c.close()
+            db.close()
+            
+            return str(data)
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+
+
+class Customer:
+    
+    
+    def get_customer():
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                port=CREDENTIALS['PORT'],
+                                database=CREDENTIALS['DATABASE'],
+                                user=CREDENTIALS['USER'],
+                                password=CREDENTIALS['PASSWORD']
+                                )
+            c = db.cursor()
+            c.execute('SELECT * FROM customer')
+            data = c.fetchall()
+            
+            c.close()
+            db.close()
+            
+            return str(data)
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+
+
+class Bought:
+    
+    
+    def get_bought():
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                port=CREDENTIALS['PORT'],
+                                database=CREDENTIALS['DATABASE'],
+                                user=CREDENTIALS['USER'],
+                                password=CREDENTIALS['PASSWORD']
+                                )
+            c = db.cursor()
+            c.execute('SELECT * FROM bought')
+            data = c.fetchall()
+            
+            c.close()
+            db.close()
+            
+            return str(data)
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+
+
+class Publisher:
+    
+    
+    def get_publisher():
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                port=CREDENTIALS['PORT'],
+                                database=CREDENTIALS['DATABASE'],
+                                user=CREDENTIALS['USER'],
+                                password=CREDENTIALS['PASSWORD']
+                                )
+            c = db.cursor()
+            c.execute('SELECT * FROM publisher')
+            data = c.fetchall()
+            
+            c.close()
+            db.close()
+            
+            return str(data)
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+        
+
+class Wrote:
+    
+    
+    def get_wrote():
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                port=CREDENTIALS['PORT'],
+                                database=CREDENTIALS['DATABASE'],
+                                user=CREDENTIALS['USER'],
+                                password=CREDENTIALS['PASSWORD']
+                                )
+            c = db.cursor()
+            c.execute('SELECT * FROM wrote')
             data = c.fetchall()
             
             c.close()

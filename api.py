@@ -49,8 +49,38 @@ def authors():
     if request.method == 'GET':
         return Author.get_authors()
 
-@app.route('/employees', methods=['GET'])
+@app.route('/book', methods=['GET'])
+def book():
+    if request.method == 'GET':
+        return Employee.get_employees()
+
+@app.route('/bought', methods=['GET'])
 def employees():
+    if request.method == 'GET':
+        return Employee.get_employees()
+    
+@app.route('/cabang', methods=['GET'])
+def cabang():
+    if request.method == 'GET':
+        return Employee.get_employees()
+    
+@app.route('/customer', methods=['GET'])
+def customer():
+    if request.method == 'GET':
+        return Employee.get_employees()
+    
+@app.route('/publisher', methods=['GET'])
+def publisher():
+    if request.method == 'GET':
+        return Employee.get_employees()
+    
+@app.route('/revenue', methods=['GET'])
+def revenue():
+    if request.method == 'GET':
+        return Employee.get_employees()
+    
+@app.route('/wrote', methods=['GET'])
+def wrote():
     if request.method == 'GET':
         return Employee.get_employees()
 
