@@ -3,10 +3,10 @@ import psycopg2
 from config import CREDENTIALS
 
 
-class Customer:
+class Wrote:
     
     
-    def get_customer():
+    def get_wrote():
         try:
             db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
                                 port=CREDENTIALS['PORT'],
@@ -15,7 +15,7 @@ class Customer:
                                 password=CREDENTIALS['PASSWORD']
                                 )
             c = db.cursor()
-            c.execute('SELECT * FROM customer')
+            c.execute('SELECT * FROM wrote')
             data = c.fetchall()
             
             c.close()

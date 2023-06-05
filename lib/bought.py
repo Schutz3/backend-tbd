@@ -3,10 +3,10 @@ import psycopg2
 from config import CREDENTIALS
 
 
-class Employee:
+class Bought:
     
     
-    def get_employees():
+    def get_bought():
         try:
             db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
                                 port=CREDENTIALS['PORT'],
@@ -15,7 +15,7 @@ class Employee:
                                 password=CREDENTIALS['PASSWORD']
                                 )
             c = db.cursor()
-            c.execute('SELECT * FROM staff')
+            c.execute('SELECT * FROM bought')
             data = c.fetchall()
             
             c.close()
@@ -27,3 +27,5 @@ class Employee:
             c.close()
             db.close()
             return f'Error while connecting to PostgreSQL Database: {err}'
+
+
