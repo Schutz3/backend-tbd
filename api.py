@@ -54,11 +54,6 @@ def authors():
     if request.method == 'GET':
         return Author.get_authors()
 
-@app.route('/book', methods=['GET'])
-def book():
-    if request.method == 'GET':
-        return Book.get_book()
-
 @app.route('/bought', methods=['GET'])
 def bought():
     if request.method == 'GET':
