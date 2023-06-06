@@ -21,14 +21,11 @@ class Book:
             res = []
             for index in data:
                 book = {
-                    "store": index[0],
-                    "book_number": index[1],
+                    "book_number": index[0],
                     "book_name": index[2],
                     "publication_year": index[3],
-                    "pages": index[4],
-                    "pname": index[5],
-                    "quantity": index[6],
-                    "price": index[7],
+                    "pages": index[1],
+                    "pname": index[4]
                 }
                 res.append(book)
             
