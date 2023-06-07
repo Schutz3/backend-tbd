@@ -1,5 +1,5 @@
 from flask import Flask, json, jsonify, make_response, request
-
+from config import CREDENTIALS
 from lib.author import Author
 from lib.book import Book
 from lib.bought import Bought
@@ -12,77 +12,161 @@ from lib.wrote import Wrote
 app = Flask(__name__)
 
 @app.route('/books', methods=['GET'])
-def books():
+def get_books():
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+
     if request.method == 'GET':
         data = Book.get_books()
         res = jsonify(data)
-        
         return res
 
-@app.route('/books/<int:id>', methods=['GET', 'POST'])
-# request API curl -X GET http://localhost:5000/books/7 -i
-def book(id):
+# Endpoint to retrieve a single book by its ID
+@app.route('/book/<int:id>', methods=['GET'])
+def get_book(id):
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+
     if request.method == 'GET':
-        return Book.get_book(id)
-    
-    # curl -X POST -H "Content-Type:application/json" -d '{"store":1,"book_number":32,"book_name":"tutorial ternak ikan","publication_year":2022,"pages":45,"pname":"Penerbit Erlangga","quantity":1,"price":30000}' http://127.0.0.1:5000/books/7 -i
+        return jsonify(Book.get_book(id))
+
+# Endpoint to add a new book
+@app.route('/books', methods=['POST'])
+def add_book():
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+
     if request.method == 'POST':
         try:
             data = request.get_json()
-            
-            
             req = {
-                "store": data.get('store'),
                 "book_number": data.get('book_number'),
                 "book_name": data.get('book_name'),
                 "publication_year": data.get('publication_year'),
                 "pages": data.get('pages'),
-                "pname": data.get('pname'),
-                "quantity": data.get('quantity'),
-                "price": data.get('price'),
+                "pname": data.get('pname')
             }
             
-            print(req)
-            return 'success'
-        except Exception as err:
-            print(err)
+            result = Book.add_book(req)
             
+            if result == 'success':
+                return jsonify({'message': 'Book added successfully.'}), 201
+            else:
+                return jsonify({'message': result}), 500
+            
+        except Exception as err:
+            return jsonify({'message': f'Error: {err}'}), 500
+
+# Endpoint to update an existing book
+@app.route('/book/<int:id>', methods=['PUT'])
+def update_book(id):
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+
+    if request.method == 'PUT':
+        try:
+            data = request.get_json()
+            req = {
+                "book_number": data.get('book_number'),
+                "book_name": data.get('book_name'),
+                "publication_year": data.get('publication_year'),
+                "pages": data.get('pages'),
+                "pname": data.get('pname')
+            }
+            
+            result = Book.update_book(id, req)
+            
+            if result == 'success':
+                return jsonify({'message': 'Book updated successfully.'}), 200
+            else:
+                return jsonify({'message': result}), 500
+            
+        except Exception as err:
+            return jsonify({'message': f'Error: {err}'}), 500
+
+# Endpoint to delete a book by its ID
+@app.route('/book/<int:id>', methods=['DELETE'])
+def delete_book(id):
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+
+    if request.method == 'DELETE':
+        result = Book.delete_book(id)
+        
+        if result == 'success':
+            return jsonify({'message': 'Book deleted successfully.'}), 200
+        else:
+            return jsonify({'message': result}), 500
+        
 
 
-@app.route('/authors', methods=['GET'])
+
+
+
+
+@app.route(f'/authors', methods=['GET'])
 def authors():
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+    
     if request.method == 'GET':
-        return Author.get_authors()
+        return jsonify(Author.get_authors())
 
-@app.route('/bought', methods=['GET'])
+@app.route(f'/bought', methods=['GET'])
 def bought():
-    if request.method == 'GET':
-        return Bought.get_bought()
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
     
-@app.route('/cabang', methods=['GET'])
+    if request.method == 'GET':
+        return jsonify(Bought.get_bought())
+    
+@app.route(f'/cabang', methods=['GET'])
 def cabang():
-    if request.method == 'GET':
-        return Cabang.get_cabang()
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
     
-@app.route('/customer', methods=['GET'])
+    if request.method == 'GET':
+        return jsonify(Cabang.get_cabang())
+    
+@app.route(f'/customer', methods=['GET'])
 def customer():
-    if request.method == 'GET':
-        return Customer.get_customer()
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
     
-@app.route('/publisher', methods=['GET'])
+    if request.method == 'GET':
+        return jsonify(Customer.get_customer())
+    
+@app.route(f'/publisher', methods=['GET'])
 def publisher():
-    if request.method == 'GET':
-        return Publisher.get_publisher()
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
     
-@app.route('/revenue', methods=['GET'])
+    if request.method == 'GET':
+        return jsonify(Publisher.get_publisher())
+    
+@app.route(f'/revenue', methods=['GET'])
 def revenue():
-    if request.method == 'GET':
-        return Revenue.get_revenue()
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
     
-@app.route('/wrote', methods=['GET'])
-def wrote():
     if request.method == 'GET':
-        return Wrote.get_wrote()
+        return jsonify(Revenue.get_revenue())
+    
+@app.route(f'/wrote', methods=['GET'])
+def wrote():
+    if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
+        return jsonify({'message': 'Restricted access.'}), 401
+    
+    if request.method == 'GET':
+        return jsonify(Wrote.get_wrote())
+    
+@app.route('/',  methods=['GET'])
+def root():
+    return jsonify({'message': 'Backend API service Running'}), 200
+
+@app.route('/<path:path>')
+def handle_not_available(path):
+    return jsonify({'message': 'Route not available'}), 404
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0' , port=5000)
