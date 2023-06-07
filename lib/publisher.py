@@ -21,7 +21,8 @@ class Publisher:
             c.close()
             db.close()
             
-            return str(data)
+            publishers = [row[0] for row in data]
+            return publishers
         
         except (psycopg2.Error, psycopg2.DatabaseError) as err:
             c.close()
