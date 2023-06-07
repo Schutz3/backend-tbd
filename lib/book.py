@@ -23,7 +23,7 @@ class Book:
                 book = {
                     "book_number": index[0],
                     "book_name": index[2],
-                    "publication_year": index[3],
+                    "publicationyear": index[3],
                     "pages": index[1],
                     "pname": index[4]
                 }
@@ -62,18 +62,14 @@ class Book:
             c.close()
             db.close()
             return f'Error while connecting to PostgreSQL Database: {err}'
-    
-    
-    def add_book(req):
+
         
-        store = req['store']
+    def add_book(req):
         book_number = req['book_number']
         book_name = req['book_name']
         publication_year = req['publication_year']
         pages = req['pages']
         pname = req['pname']
-        quantity = req['quantity']
-        price = req['price']
         
         try:
             db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
@@ -83,8 +79,9 @@ class Book:
                                     password=CREDENTIALS['PASSWORD']
                                     )
             c = db.cursor()
-            c.execute(f"""INSERT INTO book (store, book_number, book_name, publication_year, pages, pname, quantity, price)
-                      VALUES({store}, {book_number}, {book_name}, {publication_year}, {pages}, {pname}, {quantity}, {price})""")
+            c.execute("""INSERT INTO book (booknumber, bookname, publicationyear, pages, publishername)
+                        VALUES (%s, %s, %s, %s, %s)""",
+                    (book_number, book_name, publication_year, pages, pname))
             
             c.close()
             db.commit()
@@ -96,3 +93,62 @@ class Book:
             c.close()
             db.close()
             return f'Error while connecting to PostgreSQL Database: {err}'
+        
+    def update_book(id, req):
+        book_number = req['book_number']
+        book_name = req['book_name']
+        publication_year = req['publication_year']
+        pages = req['pages']
+        pname = req['pname']
+        
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                    port=CREDENTIALS['PORT'],
+                                    database=CREDENTIALS['DATABASE'],
+                                    user=CREDENTIALS['USER'],
+                                    password=CREDENTIALS['PASSWORD']
+                                    )
+            c = db.cursor()
+            # Use parameterized queries to prevent SQL injection
+            c.execute("""UPDATE book
+                        SET booknumber = %s, bookname = %s, publicationyear = %s, pages = %s, publishername = %s
+                        WHERE booknumber = %s""",
+                    (book_number, book_name, publication_year, pages, pname, id))
+            
+            c.close()
+            db.commit()
+            db.close()
+            
+            return 'success'
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+        
+    def delete_book(id):
+        try:
+            db = psycopg2.connect(host=CREDENTIALS['HOSTNAME'],
+                                    port=CREDENTIALS['PORT'],
+                                    database=CREDENTIALS['DATABASE'],
+                                    user=CREDENTIALS['USER'],
+                                    password=CREDENTIALS['PASSWORD']
+                                    )
+            c = db.cursor()
+            # Use parameterized queries to prevent SQL injection
+            c.execute("""DELETE FROM book
+                        WHERE booknumber = %s""",
+                    (id,))
+            
+            c.close()
+            db.commit()
+            db.close()
+            
+            return 'success'
+        
+        except (psycopg2.Error, psycopg2.DatabaseError) as err:
+            c.close()
+            db.close()
+            return f'Error while connecting to PostgreSQL Database: {err}'
+        
+    
