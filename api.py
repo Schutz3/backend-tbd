@@ -22,7 +22,7 @@ def get_books():
         return res
 
 # Endpoint to retrieve a single book by its ID
-@app.route('/book/<int:id>', methods=['GET'])
+@app.route('/books/<int:id>', methods=['GET'])
 def get_book(id):
     if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
         return jsonify({'message': 'Restricted access.'}), 401
@@ -52,13 +52,15 @@ def add_book():
             if result == 'success':
                 return jsonify({'message': 'Book added successfully.'}), 201
             else:
+                print(result)
                 return jsonify({'message': result}), 500
             
         except Exception as err:
+            print(err)
             return jsonify({'message': f'Error: {err}'}), 500
 
 # Endpoint to update an existing book
-@app.route('/book/<int:id>', methods=['PUT'])
+@app.route('/books/<int:id>', methods=['PUT'])
 def update_book(id):
     if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
         return jsonify({'message': 'Restricted access.'}), 401
@@ -85,7 +87,7 @@ def update_book(id):
             return jsonify({'message': f'Error: {err}'}), 500
 
 # Endpoint to delete a book by its ID
-@app.route('/book/<int:id>', methods=['DELETE'])
+@app.route('/books/<int:id>', methods=['DELETE'])
 def delete_book(id):
     if 'key' not in request.args or request.args['key'] != CREDENTIALS["KEY"]:
         return jsonify({'message': 'Restricted access.'}), 401
@@ -170,3 +172,4 @@ def handle_not_available(path):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0' , port=5000)
+    print('Running')

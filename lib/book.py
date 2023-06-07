@@ -65,10 +65,10 @@ class Book:
 
         
     def add_book(req):
-        book_number = req['book_number']
+        book_number = int(req['book_number'])
         book_name = req['book_name']
         publication_year = req['publication_year']
-        pages = req['pages']
+        pages = int(req['book_number'])
         pname = req['pname']
         
         try:
@@ -79,7 +79,7 @@ class Book:
                                     password=CREDENTIALS['PASSWORD']
                                     )
             c = db.cursor()
-            c.execute("""INSERT INTO book (booknumber, bookname, publicationyear, pages, publishername)
+            c.execute("""INSERT INTO book (booknumber, bookname, publicationyear, page, publishername)
                         VALUES (%s, %s, %s, %s, %s)""",
                     (book_number, book_name, publication_year, pages, pname))
             
